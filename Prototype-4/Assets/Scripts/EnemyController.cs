@@ -18,5 +18,10 @@ public class EnemyController : MonoBehaviour
     {
         Vector3 followPlayer = (player.transform.position-transform.position).normalized;
         rb2.AddForce(followPlayer*speed);
+
+        if (transform.position.y<-10)
+        {
+            Destroy(gameObject);
+        }
     }
 }

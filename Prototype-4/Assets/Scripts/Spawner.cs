@@ -5,18 +5,37 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    public GameObject powerupPrefab;
+
     public Transform spawnPoint;
+
     private float spawnRange = 9f;
+
+    [SerializeField]private int enemyCount;
+    public int waveNumber = 1;
     void Start()
     {
-        
-        Instantiate(enemyPrefab,SpawnPosition(),enemyPrefab.transform.rotation);
+        SpawnEnemy(waveNumber);
+        Instantiate(powerupPrefab, SpawnPosition(), powerupPrefab.transform.rotation);
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
-        
+        enemyCount = FindObjectsOfType<EnemyController>().Length;
+        if (enemyCount == 0)
+        {
+            waveNumber++;
+            SpawnEnemy(waveNumber);
+            Instantiate(powerupPrefab, SpawnPosition(), powerupPrefab.transform.rotation);
+        }
+    }
+    void SpawnEnemy(int enemiesToSpawn)
+    {
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            Instantiate(enemyPrefab, SpawnPosition(), enemyPrefab.transform.rotation);
+        }
     }
     private Vector3 SpawnPosition()
     {
